@@ -12,7 +12,7 @@ const Dashboard = () => {
 
   const fetchTodos = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/todos');
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/todos`);
       setTodos(res.data);
     } catch (error) {
       console.error('Error fetching todos:', error);
@@ -21,7 +21,7 @@ const Dashboard = () => {
 
   const addTodo = async (description) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/todos', { description, status: 'ongoing' });
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/todos`, { description, status: 'ongoing' });
       setTodos([...todos, res.data]);
     } catch (error) {
       console.error('Error adding todo:', error);
@@ -30,7 +30,7 @@ const Dashboard = () => {
 
   const deleteTodo = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/todos/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/todos/${id}`);
       setTodos(todos.filter(todo => todo._id !== id));
     } catch (error) {
       console.error('Error deleting todo:', error);
@@ -41,7 +41,7 @@ const Dashboard = () => {
     const todo = todos.find(todo => todo._id === id);
     const newStatus = todo.status === 'completed' ? 'ongoing' : 'completed';
     try {
-      await axios.put(`http://localhost:5000/api/todos/${id}`, { status: newStatus });
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/todos/${id}`, { status: newStatus });
       setTodos(
         todos.map(t =>
           t._id === id ? { ...t, status: newStatus } : t
